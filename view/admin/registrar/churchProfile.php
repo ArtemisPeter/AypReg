@@ -15,6 +15,7 @@
    <link rel="stylesheet" href="../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <?php require ('../../../dbcon.php') ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -149,26 +150,58 @@
                 <table id="example1"class="table table-bordered table-striped table-hover">
                   <thead>
                     <tr>
-                      <th>Sample</th>
-                      <th>Sample</th>
-                      <th>Sample</th>
+                      <th>Name</th>
+                      <th>NickName</th>
+                      <th>Contact #</th>
+                      <th>Age</th>
+                      <th>Del. Type</th>
+                      <th>Church</th>
+                      <th>Circuit</th>
+                      <th>Reg. Type</th>
+                      <th>Reg. Time</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <?php 
+                      $getInfo = "SELECT
+                      CONCAT(tbl_yp.fname,' ',tbl_yp.lname) AS Name,
+                      tbl_yp.nickname,
+                      tbl_yp.contact_num,
+                  
+                      TIMESTAMPDIFF(YEAR, tbl_yp.Bday, CURDATE()) AS Age,
+                      tbl_delegatetype.delegate_type,
+                      tbl_church.Church,
+                      tbl_circuit.Circuit,
+                      tbl_regtype.Registration_Type,
+                      tbl_delegate.RegTime
+                  FROM
+                      tbl_delegate
+                  INNER JOIN
+                      tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+                  INNER JOIN
+                      tbl_delegatetype ON tbl_yp.del_type_id = tbl_delegatetype.del_type_id
+                  INNER JOIN
+                      tbl_church ON tbl_church.church_id = tbl_yp.church_id
+                  INNER JOIN
+                      tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+                  INNER JOIN
+                      tbl_regtype ON tbl_regtype.RegType_id = tbl_delegate.RegType_id;";
+
+                      $Info = $con -> query($getInfo);
+
+                      if($Info){
+                        foreach($Info as $row){
+                    ?>
                     <tr>
-                      <td>Sample2</td>
-                      <td>Sample2</td>
-                      <td>Sample2</td>
-                    </tr>
-                    <tr>
-                      <td>Sample2</td>
-                      <td>Sample2</td>
-                      <td>Sample2</td>
-                    </tr>
-                    <tr>
-                      <td>Sample2</td>
-                      <td>Sample2</td>
-                      <td>Sample2</td>
+                      <td><?php echo $row['Name'] ?></td>
+                      <td><?php echo $row['nickname'] ?></td>
+                      <td><?php echo $row['contact_num'] ?></td>
+                      <td><?php echo $row['Age'] ?></td>
+                      <td><?php echo $row['delegate_type'] ?></td>
+                      <td><?php echo $row['Church'] ?></td>
+                      <td><span class="badge"><?php echo $row['Circuit'] ?></span></span></td>
+                      <td><?php echo $row['Registration_Type'] ?></td>
+                      <td><?php echo $row['RegTime']; }} ?></td>
                     </tr>
                   </tbody>
                 </table>
@@ -240,5 +273,44 @@
     });
   });
 </script>
+<script>
+ $(document).ready(() => {
+  $('#example1 tbody tr').each(function() {
+    var badge = $(this).find('.badge');
+    var tdVal = $(this).find('td:eq(6)').text();
+
+   switch(tdVal){
+    case 'Polomolok Circuit':
+      badge.addClass('bg-danger');
+      break;
+      
+    case 'TuTam Circuit':
+      badge.addClass('bg-success');
+      break;
+
+    case 'Gensan Circuit':
+      badge.addClass('bg-warning')
+      break;
+    
+    case 'Malungon Circuit':
+      badge.addClass('bg-pink');
+      break;
+
+    case 'KorLuTan Circuit':
+      badge.addClass('bg-orange');
+      break;
+   }
+  });
+});
+
+</script>
+<style>
+  .bg-orange{
+    background-color: orange;
+  }
+  .bg-pink{
+    background-color: pink;
+  }
+</style>
 </body>
 </html>
