@@ -74,7 +74,7 @@
                with font-awesome or any other icon font library -->
           
                <li class="nav-item">
-            <a href="" class="nav-link ">
+            <a href="dashboard.php" class="nav-link ">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -82,14 +82,14 @@
             </a>
           </li>
           <li class="nav-item active">
-            <a href="churchProfile.php" class="nav-link">
+            <a href="churchProfile.php" class="nav-link active">
             <i class="nav-icon fas fa-users"></i>
               <p>
                 Church Profile
               </p>
             </a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item ">
             <a href="registrar_dashboard.php" class="nav-link">
             <i class="nav-icon fas fa-cash-register"></i>
               <p>
@@ -257,53 +257,59 @@
 <script src="../../../dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
+  $(document).ready(() => {
+  // Initialize DataTable
+  var table = $('#example1').DataTable({
+    "responsive": true,
+    "lengthChange": false,
+    "autoWidth": false,
+    "buttons": ["csv", "excel", "pdf", "print", "colvis"],
+    "drawCallback": function (settings) {
+      $('#example1 tbody tr').each(function () {
+        var badge = $(this).find('.badge');
+        var tdVal = $(this).find('td:eq(6)').text();
+
+        switch (tdVal) {
+          case 'Polomolok Circuit':
+            badge.addClass('bg-danger');
+            break;
+
+          case 'TuTam Circuit':
+            badge.addClass('bg-success');
+            break;
+
+          case 'Gensan Circuit':
+            badge.addClass('bg-warning')
+            break;
+
+          case 'Malungon Circuit':
+            badge.addClass('bg-pink');
+            break;
+
+          case 'KorLuTan Circuit':
+            badge.addClass('bg-orange');
+            break;
+
+          case 'NorSan Circuit':
+            badge.addClass('bg-light');
+            break;
+
+          case 'Banga Circuit':
+            badge.addClass('bg-dark');
+            break;
+
+          case 'Surallah Circuit':
+            badge.addClass('bg-primary');
+            break;
+        }
+      });
+    }
   });
-</script>
-<script>
- $(document).ready(() => {
-  $('#example1 tbody tr').each(function() {
-    var badge = $(this).find('.badge');
-    var tdVal = $(this).find('td:eq(6)').text();
-
-   switch(tdVal){
-    case 'Polomolok Circuit':
-      badge.addClass('bg-danger');
-      break;
-      
-    case 'TuTam Circuit':
-      badge.addClass('bg-success');
-      break;
-
-    case 'Gensan Circuit':
-      badge.addClass('bg-warning')
-      break;
-    
-    case 'Malungon Circuit':
-      badge.addClass('bg-pink');
-      break;
-
-    case 'KorLuTan Circuit':
-      badge.addClass('bg-orange');
-      break;
-   }
-  });
+  // Move buttons container
+  table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 });
-
 </script>
+
 <style>
   .bg-orange{
     background-color: orange;

@@ -88,8 +88,8 @@
               </p>
             </a>
           </li>
-          <li class="nav-item active">
-            <a href="registrar_dashboard.php" class="nav-link">
+          <li class="nav-item">
+            <a href="registrar_dashboard.php" class="nav-link active">
             <i class="nav-icon fas fa-cash-register"></i>
               <p>
                 Register
@@ -519,10 +519,11 @@ $(document).ready(()=> {
 <script>
   $(document).ready(() => {
   let formReg1 = $('#formReg1');
-  let selectedYp = $('#selectedYP');
 
   formReg1.on('submit', (event) => {
     event.preventDefault();
+
+    let selectedYp = $('#selectedYP');
 
     $.ajax({
       url: '../../../controller/AddYouth1.php',
@@ -534,23 +535,31 @@ $(document).ready(()=> {
         if (response === 'error') {
           Swal.fire({
             icon: 'error',
-            title: 'Not Connected',
+            title: 'There is something wrong',
           });
         } else if (response === 'Exist') {
           Swal.fire({
             icon: 'warning',
             title: 'YP already Registered',
           });
-        } else {
+        } else if (response === 'success'){
           Swal.fire({
             icon: 'success',
-            title: 'Connected',
-          }).then(location.reload());
+            title: 'Successfully Registered!',
+          }).then(() => {
+            location.reload();
+          });
+        }else {
+          Swal.fire({
+            icon: 'error',
+            title: 'There is something wrong',
+          })
         }
       },
     });
   });
 });
+
 </script>
 </body>
 </html>
