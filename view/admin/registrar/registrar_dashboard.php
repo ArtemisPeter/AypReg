@@ -261,6 +261,12 @@
                                               <label for="YW" class="custom-control-label" >Youth Worker</label>
                                             </div>
                                           </div>
+                                          <div class="col-2">
+                                            <div class="custom-control custom-radio">
+                                              <input class="custom-control-input custom-control-input-success" type="radio" id="V" name="customRadio" value= 'Visitor'>
+                                              <label for="V" class="custom-control-label" >Visitor</label>
+                                            </div>
+                                          </div>
                                         
                                       </div>
                                           
@@ -511,38 +517,40 @@ $(document).ready(()=> {
   })
 </script>
 <script>
+  $(document).ready(() => {
   let formReg1 = $('#formReg1');
   let selectedYp = $('#selectedYP');
 
-  let YpVal =selectedYp.val()
-
-  formReg1.on('submit', (event)=>{
+  formReg1.on('submit', (event) => {
     event.preventDefault();
-
 
     $.ajax({
       url: '../../../controller/AddYouth1.php',
       method: 'POST',
-      data: {YouthSelected: YpVal},
+      data: { YouthSelected: selectedYp.val() },
       success: (response) => {
         console.log(response);
 
-        if(response === 'error'){
+        if (response === 'error') {
           Swal.fire({
-          icon: 'error',
-          title: 'Not Connected'
-        })
-        }else{
+            icon: 'error',
+            title: 'Not Connected',
+          });
+        } else if (response === 'Exist') {
           Swal.fire({
-          icon: 'success',
-          title: 'Connected'
-          })
+            icon: 'warning',
+            title: 'YP already Registered',
+          });
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: 'Connected',
+          }).then(location.reload());
         }
-        
-      }
-
-    })
-  })
+      },
+    });
+  });
+});
 </script>
 </body>
 </html>
