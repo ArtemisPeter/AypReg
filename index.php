@@ -1,5 +1,6 @@
 <?php
     session_start();
+    session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,7 +119,7 @@
                             <div class="d-grid gap-2">
                                 <button class="btn btn-success btn-lg" type="submit" name="login">Login</button>
                             </div>
-                            <div class='alert alert-danger mt-3 d-none text-center' id="wrongpass"><h3 class='blink_text'></h3></div>
+                            <div class='alert alert-danger mt-3 d-none text-center' id="wrongpass"><h3 class='blink_text'>Access Denied</h3></div>
                         </form>
                         <!--TO REMOVE, for sample use ONLY!!! -->
                         <script>
@@ -150,6 +151,7 @@
                         method: 'POST',
                         data: login.serialize(),
                         success: (response) => {
+                            console.log(response);
                            if(response === 'Admin'){
                             window.location = 'view/admin/admin_dashboard.php';
                            }else if(response === 'Registrar'){
@@ -158,8 +160,7 @@
                            else{
                             const notifElement = document.getElementById('wrongpass'); // Check if the element exists
                                 if (notifElement) {
-                                    const messageNode = document.createTextNode('Access Denied'); // Create a text node
-                                    notifElement.appendChild(messageNode); // Append the text node to the element
+                                   
                                     notifElement.classList.remove('d-none');
                                 }
                            }

@@ -86,12 +86,14 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php 
-            if(isset($_SESSION['UserName'])){
-              echo $_SESSION['UserName'];
-            }else{
-              echo "<script>window.location:'../../index.php'</script>";
+          <a href="#" class="d-block"><?php
+            if (!isset($_SESSION['UserName'])) {
+                session_destroy(); // Destroy the session
+                header('Location: ../../index.php'); // Redirect to index.php
+                exit(); // Stop executing the rest of the code
             }
+
+            echo $_SESSION['UserName']; // Display the username
           ?></a>
         </div>
       </div>
@@ -159,6 +161,14 @@
             <i class="nav-icon fas fa-user-secret"></i>
               <p>
                 About us
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="../../index.php" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i>
+              <p>
+                Log Out
               </p>
             </a>
           </li>

@@ -82,7 +82,7 @@
                with font-awesome or any other icon font library -->
           
                <li class="nav-item">
-            <a href="dashboard.php" class="nav-link ">
+            <a href="admin_dashboard.php" class="nav-link ">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -90,7 +90,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="churchProfile.php" class="nav-link">
+            <a href="admin_churchProfile.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
               <p>
                 Church Profile
@@ -98,15 +98,7 @@
             </a>
           </li>
           <li class="nav-item active">
-            <a href="registrar_dashboard.php" class="nav-link">
-            <i class="nav-icon fas fa-cash-register"></i>
-              <p>
-                Register
-              </p>
-            </a>
-          </li>
-          <li class="nav-item active">
-            <a href="reports.php" class="nav-link">
+            <a href="admin_reports.php" class="nav-link">
             <i class="nav-icon fas fa-chart-bar"></i>
               <p>
                 Reports
@@ -114,7 +106,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="about_us.php" class="nav-link">
+            <a href="#" class="nav-link">
             <i class="nav-icon fas fa-user-secret"></i>
               <p>
                 About us

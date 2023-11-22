@@ -84,12 +84,14 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php 
-            if(isset($_SESSION['UserName'])){
-              echo $_SESSION['UserName'];
-            }else{
-              echo "<script>window.location:'../../index.php'</script>";
+          <a href="#" class="d-block"><?php
+            if (!isset($_SESSION['UserName'])) {
+                session_destroy(); // Destroy the session
+                header('Location: ../../index.php'); // Redirect to index.php
+                exit(); // Stop executing the rest of the code
             }
+
+            echo $_SESSION['UserName']; // Display the username
           ?></a>
         </div>
       </div>
@@ -109,23 +111,16 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="churchProfile.php" class="nav-link">
+            <a href="admin_churchProfile.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
               <p>
                 Church Profile
               </p>
             </a>
           </li>
-          <li class="nav-item active">
-            <a href="registrar_dashboard.php" class="nav-link">
-            <i class="nav-icon fas fa-cash-register"></i>
-              <p>
-                Register
-              </p>
-            </a>
-          </li>
+          
           <li class="nav-item">
-            <a href="reports.php" class="nav-link">
+            <a href="admin_reports.php" class="nav-link">
             <i class="nav-icon fas fa-chart-bar"></i>
               <p>
                 Reports
@@ -133,10 +128,18 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="about_us.php" class="nav-link">
+            <a href="#" class="nav-link">
             <i class="nav-icon fas fa-user-secret"></i>
               <p>
                 About us
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="../../index.php" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i>
+              <p>
+                Log Out
               </p>
             </a>
           </li>

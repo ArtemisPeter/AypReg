@@ -83,7 +83,7 @@
                with font-awesome or any other icon font library -->
           
                <li class="nav-item">
-            <a href="dashboard.php" class="nav-link ">
+            <a href="admin_dashboard.php" class="nav-link ">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -91,43 +91,15 @@
             </a>
           </li>
           <li class="nav-item active">
-            <a href="churchProfile.php" class="nav-link active">
+            <a href="admin_churchProfile.php" class="nav-link active">
             <i class="nav-icon fas fa-users"></i>
               <p>
                 Church Profile
               </p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a href="registrar_dashboard.php" class="nav-link">
-            <i class="nav-icon fas fa-cash-register"></i>
-              <p>
-                Register
-              </p>
-            </a>
-          </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-upload"></i>
-              <p>Import<i class="fas fa-angle-left right"></i></p></a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="registrar_import_prereg.php" class="nav-link">
-                    <i class="fas fa-registered"></i>
-                    <p>Pre-Reg</p>
-                  </a>
-                </li>
-                                    
-                <li class="nav-item">
-                  <a href="admin_importPeriodical.php" class="nav-link">
-                    <i class="far fa-registered"></i>
-                    <p>Young People</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          <li class="nav-item">
-            <a href="reports.php" class="nav-link">
+            <a href="admin_reports.php" class="nav-link">
             <i class="nav-icon fas fa-chart-bar"></i>
               <p>
                 Reports
@@ -135,7 +107,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="about_us.php" class="nav-link">
+            <a href="#" class="nav-link">
             <i class="nav-icon fas fa-user-secret"></i>
               <p>
                 About us

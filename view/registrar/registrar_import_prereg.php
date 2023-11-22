@@ -65,12 +65,14 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php 
-            if(isset($_SESSION['UserName'])){
-              echo $_SESSION['UserName'];
-            }else{
-              echo "<script>window.location:'../../index.php'</script>";
+          <a href="#" class="d-block"><?php
+            if (!isset($_SESSION['UserName'])) {
+                session_destroy(); // Destroy the session
+                header('Location: ../../index.php'); // Redirect to index.php
+                exit(); // Stop executing the rest of the code
             }
+
+            echo $_SESSION['UserName']; // Display the username
           ?></a>
         </div>
       </div>
@@ -141,6 +143,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="../../index.php" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i>
+              <p>
+                Log Out
+              </p>
+            </a>
+          </li>
           
       </nav>
       <!-- /.sidebar-menu -->
@@ -176,6 +186,7 @@
             <div class="card card-navy ">
               <div class="card-body">
                 <form id="importPreReg" enctype="multipart/form-data" method="post">
+                <a href="../../PreReg Template.csv" download>Click me to download the CSV file for importing Pre Reg</a>
                     <div class="row d-flex justify-content-center mt-4 mb-4">
                         <div class="col-4">
                             <input type="file" class="form-control-file form-control-lg" name ="PreRegCSV" id ="PreRegCSV" required accept=".csv" >
@@ -354,7 +365,7 @@ require '../../dbcon.php';
     
                                         //register it!
                                         $register = "INSERT INTO tbl_delegate (tbl_delegate.yp_id, tbl_delegate.RegTime, tbl_delegate.RegType_id)
-                                        VALUES ((SELECT tbl_yp.yp_id FROM tbl_yp WHERE tbl_yp.fname = '$fname' AND tbl_yp.lname = '$lname'), NOW(), 2);";
+                                        VALUES ((SELECT tbl_yp.yp_id FROM tbl_yp WHERE tbl_yp.fname = '$fname' AND tbl_yp.lname = '$lname'), NOW(), 1);";
                                         $registered = $con -> query($register);
                                         
                                     }
