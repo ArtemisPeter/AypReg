@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,6 +10,7 @@
         <title>CPSLMS</title>
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
                 
@@ -70,7 +74,7 @@
  }
 
  body{
-    background-image: url(dist/img/20180309_161009.jpg);
+    background-image: url(dist/img/IMG_20220508_155943.jpg);
     background-size: cover;
     background-repeat: no-repeat;
    background-position: top;
@@ -84,6 +88,7 @@
  }
 
         </style>
+        <?php require 'dbcon.php' ?>
     </head>
     <body>
         
@@ -94,25 +99,26 @@
                         
                     </div>
                     <div id="login" class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                        <form action="" method="post" id = 'form'>
+                        <form id ='loginform'>
                             <div class="divider d-flex align-items-center my-4">
                                 <p class="text-center fs-1 mx-3 mb-0">LOGIN</p>
                             </div>
                             <div class="form-outline mb-4">
-                                <input type="text" id="form3Example3" class="form-control form-control-lg"
+                                <input type="text" id="username" class="form-control form-control-lg"
                                 placeholder="Enter username" name="username" autofocus='autofocus' required />
-                                <label class="form-label" for="form3Example3">Username</label>
+                                <label class="form-label" for="username">Username</label>
                             </div>
 
                             <div class="form-outline mb-3">
-                                <input type="password" id="form3Example4" class="form-control form-control-lg"
+                                <input type="password" id="password" class="form-control form-control-lg"
                                 placeholder="Enter password"  name="password" />
-                                <label class="form-label" for="form3Example4">Password</label>
+                                <label class="form-label" for="password">Password</label>
                             </div>
 
                             <div class="d-grid gap-2">
                                 <button class="btn btn-success btn-lg" type="submit" name="login">Login</button>
                             </div>
+                            <div class='alert alert-danger mt-3 d-none text-center' id="wrongpass"><h3 class='blink_text'></h3></div>
                         </form>
                         <!--TO REMOVE, for sample use ONLY!!! -->
                         <script>
@@ -128,9 +134,39 @@
             </div>
             
         </section>
-        
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+        <script>
+            $(document).ready(()=>{
+                let login = $('#loginform');
+                let notif = $('#notif');
+
+                login.on('submit', (event)=> {
+                    event.preventDefault();
+                    $.ajax({
+                        url: 'controller/logIn.php',
+                        method: 'POST',
+                        data: login.serialize(),
+                        success: (response) => {
+                           if(response === 'Admin'){
+                            window.location = 'view/admin/admin_dashboard.php';
+                           }else if(response === 'Registrar'){
+                            window.location = 'view/registrar/dashboard.php'
+                           }
+                           else{
+                            const notifElement = document.getElementById('wrongpass'); // Check if the element exists
+                                if (notifElement) {
+                                    const messageNode = document.createTextNode('Access Denied'); // Create a text node
+                                    notifElement.appendChild(messageNode); // Append the text node to the element
+                                    notifElement.classList.remove('d-none');
+                                }
+                           }
+                        }
+                    })
+                })
+            })
+        </script>
     </body>
 </html>

@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,17 +10,19 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   
-  <link rel="stylesheet" href="../../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   
 
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
   <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="../../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
 
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
-  <?php require ('../../../dbcon.php') ?>
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+  
+  <?php require ('../../dbcon.php') ?>
 
   <style>
   .bg-orange{
@@ -42,7 +45,7 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../../../dist/img/aypLogo.jpg" alt="AdminLTELogo" height="400" width="400">
+    <img class="animation__shake" src="../../dist/img/aypLogo.jpg" alt="AdminLTELogo" height="400" width="400">
   </div>
 
   <!-- Navbar -->
@@ -71,7 +74,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
-      <img src="../../../dist/img/aypLogo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="../../dist/img/aypLogo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Alliance YP</span>
     </a>
 
@@ -80,10 +83,16 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block"><?php 
+            if(isset($_SESSION['UserName'])){
+              echo $_SESSION['UserName'];
+            }else{
+              echo "<script>window.location:'../../index.php'</script>";
+            }
+          ?></a>
         </div>
       </div>
 
@@ -117,6 +126,26 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-upload"></i>
+              <p>Import<i class="fas fa-angle-left right"></i></p></a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="registrar_import_prereg.php" class="nav-link">
+                    <i class="fas fa-registered"></i>
+                    <p>Pre-Reg</p>
+                  </a>
+                </li>
+                                    
+                <li class="nav-item">
+                  <a href="admin_importPeriodical.php" class="nav-link">
+                    <i class="far fa-registered"></i>
+                    <p>Young People</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
           <li class="nav-item">
             <a href="reports.php" class="nav-link">
             <i class="nav-icon fas fa-chart-bar"></i>
@@ -388,10 +417,10 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>PINILI 2023</strong>
+    TO GOD BE THE GLORY!
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>AYPRegV.</b> 0.0.1
     </div>
   </footer>
 
@@ -404,17 +433,17 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="../../../plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
-<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<script src="../../../dist/js/adminlte.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
 </body>
 </html>

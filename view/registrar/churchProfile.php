@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,21 +9,21 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
    <!-- DataTables -->
-   <link rel="stylesheet" href="../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <?php require ('../../../dbcon.php') ?>
+   <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <?php require ('../../dbcon.php') ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../../../dist/img/aypLogo.jpg" alt="AdminLTELogo" height="400" width="400">
+    <img class="animation__shake" src="../../dist/img/aypLogo.jpg" alt="AdminLTELogo" height="400" width="400">
   </div>
 
   <!-- Navbar -->
@@ -51,7 +52,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
-      <img src="../../../dist/img/aypLogo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="../../dist/img/aypLogo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Alliance YP</span>
     </a>
 
@@ -60,10 +61,16 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block"><?php 
+            if(isset($_SESSION['UserName'])){
+              echo $_SESSION['UserName'];
+            }else{
+              echo "<script>window.location:'../../index.php'</script>";
+            }
+          ?></a>
         </div>
       </div>
 
@@ -97,6 +104,26 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-upload"></i>
+              <p>Import<i class="fas fa-angle-left right"></i></p></a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="registrar_import_prereg.php" class="nav-link">
+                    <i class="fas fa-registered"></i>
+                    <p>Pre-Reg</p>
+                  </a>
+                </li>
+                                    
+                <li class="nav-item">
+                  <a href="admin_importPeriodical.php" class="nav-link">
+                    <i class="far fa-registered"></i>
+                    <p>Young People</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
           <li class="nav-item">
             <a href="reports.php" class="nav-link">
             <i class="nav-icon fas fa-chart-bar"></i>
@@ -232,29 +259,29 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="../../../plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../../plugins/jszip/jszip.min.js"></script>
-<script src="../../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
-<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../../dist/js/adminlte.js"></script>
+<script src="../../dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script>
   $(document).ready(() => {
