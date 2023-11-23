@@ -4,28 +4,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Registered Delegates</title>
+  <title>AdminLTE 3 | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-   <!-- DataTables -->
-   <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <?php require ('../../dbcon.php') ?>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../../dist/img/aypLogo.jpg" alt="AdminLTELogo" height="400" width="400">
-  </div>
+  
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -91,7 +86,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a href="churchProfile.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
               <p>
@@ -99,11 +94,19 @@
               </p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item active">
             <a href="registrar_dashboard.php" class="nav-link">
             <i class="nav-icon fas fa-cash-register"></i>
               <p>
                 Register
+              </p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="reports.php" class="nav-link">
+            <i class="nav-icon fas fa-chart-bar"></i>
+              <p>
+                Reports
               </p>
             </a>
           </li>
@@ -113,28 +116,20 @@
               <p>Import<i class="fas fa-angle-left right"></i></p></a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="registrar_import_prereg.php" class="nav-link active">
+                  <a href="registrar_import_prereg.php" class="nav-link ">
                     <i class="fas fa-registered"></i>
                     <p>Pre-Reg</p>
                   </a>
                 </li>
                                     
                 <li class="nav-item">
-                  <a href="registrart_import_YP.php" class="nav-link">
+                  <a href="registrart_import_YP.php" class="nav-link active">
                     <i class="far fa-registered"></i>
                     <p>Young People</p>
                   </a>
                 </li>
               </ul>
             </li>
-          <li class="nav-item">
-            <a href="reports.php" class="nav-link">
-            <i class="nav-icon fas fa-chart-bar"></i>
-              <p>
-                Reports
-              </p>
-            </a>
-          </li>
           <li class="nav-item">
             <a href="about_us.php" class="nav-link">
             <i class="nav-icon fas fa-user-secret"></i>
@@ -151,7 +146,6 @@
               </p>
             </a>
           </li>
-          
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -165,12 +159,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Pre Reg Form</h1>
+            <h1 class="m-0">Report</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Young People Profile</li>
+              <li class="breadcrumb-item active">Report</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -185,8 +179,8 @@
           <div class="col-12">
             <div class="card card-navy ">
               <div class="card-body">
-                <form id="importPreReg" enctype="multipart/form-data" method="post">
-                <a href="../../PreReg Template.csv" download>Click me to download the CSV file for importing Pre Reg</a>
+              <form id="importPreReg" enctype="multipart/form-data" method="post">
+                <a href="../../PreReg Template.csv" download>Click me to download the CSV file for importing Young People</a>
                     <div class="row d-flex justify-content-center mt-4 mb-4">
                         <div class="col-4">
                             <input type="file" class="form-control-file form-control-lg" name ="PreRegCSV" id ="PreRegCSV" required accept=".csv" >
@@ -199,10 +193,10 @@
 
                 </form>
                 <div id="remind"></div>
+                  
               </div>
             </div>
           </div>
-         
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -229,26 +223,16 @@
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
 <script>
     document.getElementById('importPreReg').addEventListener('submit', (e) => {
         const fileInput = document.getElementById('PreRegCSV');
@@ -295,6 +279,7 @@ require '../../dbcon.php';
                             $circuit = $row[5];
                             $Church = $row[4];
                             $deltype = 'Young People';
+
 
                             $YouthNames = explode(', ', $ImportName);
 
@@ -366,7 +351,7 @@ require '../../dbcon.php';
                                         //register it!
                                         $register = "INSERT INTO tbl_delegate (tbl_delegate.yp_id, tbl_delegate.RegTime, tbl_delegate.RegType_id)
                                         VALUES ((SELECT tbl_yp.yp_id FROM tbl_yp WHERE tbl_yp.fname = '$fname' AND tbl_yp.lname = '$lname'), NOW(), 1);";
-                                        $registered = $con -> query($register);
+                                      //  $registered = $con -> query($register);
                                         
                                     }
                                 }

@@ -118,7 +118,7 @@
                 </li>
                                     
                 <li class="nav-item">
-                  <a href="admin_importPeriodical.php" class="nav-link">
+                  <a href="registrart_import_YP.php" class="nav-link">
                     <i class="far fa-registered"></i>
                     <p>Young People</p>
                   </a>
