@@ -180,7 +180,7 @@
             <div class="card card-navy ">
               <div class="card-body">
               <form id="importPreReg" enctype="multipart/form-data" method="post">
-                <a href="../../PreReg Template.csv" download>Click me to download the CSV file for importing Young People</a>
+                <a href="https://drive.google.com/drive/folders/1OvNGMMpE28ZsAVR5tecX3GRwP-DzDLpe?usp=drive_link" target="_blank">Click me to download the CSV file for importing Young People</a>
                     <div class="row d-flex justify-content-center mt-4 mb-4">
                         <div class="col-4">
                             <input type="file" class="form-control-file form-control-lg" name ="PreRegCSV" id ="PreRegCSV" required accept=".csv" >

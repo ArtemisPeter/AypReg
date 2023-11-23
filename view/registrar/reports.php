@@ -16,6 +16,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 
+  <?php require ('../../dbcon.php') ?>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -182,13 +184,105 @@
           <div class="col-12">
             <div class="card card-navy ">
               <div class="card-body">
-              <h1>Soon...</h1>
+              <h1>Print Area</h1>
                   
               </div>
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-6">
+          <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Total Delegates</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="TotalDelPie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            
+          </div>
+          <div class="col-md-6">
+          <div class="card card-danger">
+              <div class="card-header">
+                <h3 class="card-title">Registration</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="RegPie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+        </div>
       </div><!-- /.container-fluid -->
+      <div class="row">
+      <div class="col-md-6">
+          <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">Total Ages</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="TotalAgesPie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+      </div>
+      <div class="col-md-6">
+      <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">Registration Per Day</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="RegPerDayBar" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+      </div>
+      </div>
     </section>
     <!-- /.content -->
   </div>
@@ -214,6 +308,8 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<!-- ChartJS -->
+<script src="../../plugins/chart.js/Chart.min.js"></script>
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
@@ -223,6 +319,168 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
+<script>
+  <?php
+
+  $GetMalungon = "SELECT COUNT(*) AS MCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+                  INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'Malungon Circuit';";
+                  $TotalMC = $con->query($GetMalungon);
+
+                  if($TotalMC -> num_rows > 0){
+                    $TMC = $TotalMC -> fetch_assoc();
+                    $OverMC = $TMC['MCircuit'];
+                  };
+                  
+                  $GetGensan = "SELECT COUNT(*) AS MCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+                  INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'Gensan Circuit';";
+                  $TotalGC = $con->query($GetGensan);
+
+                  if($TotalGC -> num_rows > 0){
+                    $TGC = $TotalGC -> fetch_assoc();
+                    $OverGC = $TGC['MCircuit'];
+                  };
+  
+                  $GetPolomolok = "SELECT COUNT(*) AS PCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+                  INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'Polomolok Circuit';";
+                  $TotalPC = $con->query($GetPolomolok);
+
+                  if($TotalPC -> num_rows > 0){
+                    $TPC = $TotalPC -> fetch_assoc();
+                    $OverPC = $TPC['PCircuit'];
+                  };
+
+                  $GetTuTam = "SELECT COUNT(*) AS TCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+                  INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'TuTam Circuit';";
+                  $TotalTC = $con->query($GetTuTam);
+
+                  if($TotalTC -> num_rows > 0){
+                    $TTC = $TotalTC -> fetch_assoc();
+                    $OverTC = $TTC['TCircuit'];
+                  };
+
+                  $GetKorLuTan = "SELECT COUNT(*) AS KCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+                  INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'KorLuTan Circuit';";
+                  $TotalKC = $con->query($GetKorLuTan);
+
+                  if($TotalKC -> num_rows > 0){
+                    $TKC = $TotalKC -> fetch_assoc();
+                    $OverKC = $TKC['KCircuit'];
+                  };
+
+                  $GetBanga = "SELECT COUNT(*) AS BCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+                  INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'Banga Circuit';";
+                  $TotalBC = $con->query($GetBanga);
+
+                  if($TotalBC -> num_rows > 0){
+                    $TBC = $TotalBC -> fetch_assoc();
+                    $OverBC = $TBC['BCircuit'];
+                  };
+
+                  $GetSurallah = "SELECT COUNT(*) AS SCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+                  INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'Surallah Circuit';";
+                  $TotalSC = $con->query($GetSurallah);
+
+                  if($TotalSC -> num_rows > 0){
+                    $TSC = $TotalSC -> fetch_assoc();
+                    $OverSC = $TSC['SCircuit'];
+                  };
+
+    $GetNorSan = "SELECT COUNT(*) AS NCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+                  INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'NorSan Circuit';";
+                  $TotalNC = $con->query($GetNorSan);
+
+                  if($TotalNC -> num_rows > 0){
+                    $TNC = $TotalNC -> fetch_assoc();
+                    $OverNC = $TNC['NCircuit'];
+                  };
+
+                  $GetTotalPreReg = "SELECT COUNT(*) AS PreReg FROM tbl_delegate WHERE tbl_delegate.RegType_id = 1;";
+                  $PreReg = $con ->  query($GetTotalPreReg);
+
+                  if($PreReg -> num_rows > 0){
+                    $PRG = $PreReg -> fetch_assoc();
+                    $TotalPreReg = $PRG['PreReg'];
+                  }
+
+                  $GetTotalOnReg = "SELECT COUNT(*) AS OnReg FROM tbl_delegate WHERE tbl_delegate.RegType_id = 2;";
+                  $OnReg = $con ->  query($GetTotalOnReg);
+
+                  if($OnReg -> num_rows > 0){
+                    $ORG = $OnReg -> fetch_assoc();
+                    $TotalOnReg = $ORG['OnReg'];
+                  }
+  
+  ?>
+$(()=> {
+  var Circuit = {
+    labels: [
+      'Malungon Circuit',
+      'Gensan Circuit',
+      'Polomolok Circuit',
+      'TuTam Circuit',
+      'KorLuTan Circuit',
+      'Banga Circuit',
+      'Surallah Circuit',
+      'NorSam Circuit'
+    ],
+    datasets: [
+      {
+        data: [<?php echo $OverMC ?>,<?php echo $OverGC ?>,<?php echo $OverPC ?>,<?php echo $OverTC ?>,<?php echo $OverKC ?>,<?php echo $OverBC ?>,<?php echo $OverSC ?>,<?php echo $OverNC ?>],
+        backgroundColor: ['#F8C8DC', '#fdfd96','#FF6961', '#77DD77', '#FF5733', '#1D1C1A', '#AEC6CF', '#EDE9E8']
+      }
+    ]
+  }
+
+  var totalDelCanvas = $('#TotalDelPie').get(0).getContext('2d')
+  var pieData = Circuit;
+  var pieOptions = {
+    maintanAspectRatio :false,
+    responsive : true,
+  }
+
+  new Chart(totalDelCanvas, {
+    type: 'pie',
+    data: pieData,
+    options :pieOptions
+  });
+
+  var Registration_Type = {
+    labels: [
+      'Pre-Reg',
+      'On-Site',
+    ],
+    datasets: [
+      {
+        data: [<?php echo $TotalPreReg ?>, <?php echo $TotalOnReg ?>],
+        backgroundColor: ['#FF6961','#AEC6CF', ]
+      }
+    ]
+  }
+
+  var totalRegCanvas = $('#RegPie').get(0).getContext('2d')
+  var pieData = Registration_Type;
+  var pieOptions = {
+    maintanAspectRatio :false,
+    responsive : true,
+  }
+
+  new Chart(totalRegCanvas, {
+    type: 'pie',
+    data: pieData,
+    options :pieOptions
+  });
+});
+
+
+</script>
 
 </body>
 </html>
