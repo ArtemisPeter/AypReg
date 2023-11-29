@@ -20,6 +20,7 @@
 
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet'>
 
   
   <?php require ('../../dbcon.php') ?>
@@ -34,7 +35,7 @@
 </style>
   <style>
     #TotalDel{
-      font-family:'Times New Roman', Times, serif;
+      font-family:'Anton', Times, serif;
       font-size: 7rem;
       font-weight: bold;
     }
