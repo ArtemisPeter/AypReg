@@ -187,8 +187,33 @@
           <div class="col-12">
             <div class="card card-navy ">
               <div class="card-body">
-              <button type="button" class="btn btn-danger" onclick='generateID()'>Generate ID</button>
-                  
+                <form action="../../controller/GenerateID.php" method="POST" target="_blank">
+                <div class="row">
+                  <div class="col-4">
+                  <select class="select2bs4 form-control" name="Circuit" id="Circuit" required>
+                                          <option disabled selected>Select Circuit</option>
+                                            <?php 
+                                              $getCircuit = "SELECT tbl_circuit.Circuit FROM tbl_circuit";
+                                              $Circuit = $con -> query($getCircuit);
+
+                                              if($Circuit){
+                                                foreach($Circuit AS $row){
+                                            ?>
+                                            <option><?php echo $row['Circuit']; }}?></option>
+                                        </select>
+                  </div>
+                  <div class="col-4">
+                  <select class="select2bs4 form-control" id="Church" name="Church" required>
+                                            <option disabled selected>Select Church</option>
+                                          </select>
+                  </div>
+                  <div class="col-4">
+                    <button type="submit" class="btn btn-danger" id ="generateButton" >Generate ID</button>
+                  </div>
+                </div>
+                
+                </form>
+                
               </div>
             </div>
           </div>
@@ -310,7 +335,10 @@
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <script src="../../plugins/select2/js/select2.full.min.js"></script>
 <!-- ChartJS -->
 <script src="../../plugins/chart.js/Chart.min.js"></script>
 <script>
@@ -484,6 +512,7 @@ $(()=> {
 
 
 </script>
+
 <script>
   function generateID() {
     
@@ -591,7 +620,56 @@ $(()=> {
     printWindow.print();
   }
 </script>
+<script>
+  $(()=>{
 
+    $('.select2').select2()
+
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+</script>
+<script>
+  $(document).ready(()=>{
+    function checkSelection(){
+      var circuitSelected = $('#Circuit').val();
+      var churchSelected = $('#Church').val();
+
+      if(circuitSelected && churchSelected) {
+        $('#generateButton').prop('disabled', false);
+      }else{
+        $('#generateButton').prop('disabled', true);
+      }
+    }
+
+    $('#Circuit, #Church').change(()=> {
+      checkSelection();
+    })
+
+    checkSelection();
+  })
+</script>
+<script>
+  $(document).ready(()=>{
+    let Circuit = $('#Circuit');
+    let Church = $('#Church')
+    Circuit.on('change', ()=> {
+      let GetCircuit =Circuit.val();
+      $.ajax({
+        url: '../../controller/GetChurch.php',
+        method: 'POST',
+        data: {Circuit: GetCircuit},
+        success: (response) => {
+          Church.html(response);
+        },
+        error: (xhr, status, error) => {
+          console.error("AJAX request failed:", status, error);
+        }
+      })
+    })
+  })
+</script>
 
 
 </body>
