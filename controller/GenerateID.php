@@ -15,15 +15,14 @@ require ('../dbcon.php');
       .img-container {
         display: flex;
         flex-wrap: wrap;
-       
       }
 
       .box{ 
         background-size: cover; /* Adjust as needed */
         border: 1px solid black;
-        width: 45%;
+        width: 47%;
         height: 460px;
-        margin: 10px 10px;
+        margin: 10px 5px;
         position: relative;
       }
 
@@ -42,8 +41,9 @@ require ('../dbcon.php');
       }
 
       .overlay-name {
+        font-family: 'Anton';
         position: absolute;
-        top: 71%;
+        top:  70%;
         left: 50%; 
         transform: translateX(-50%); 
         font-size: 60px;
@@ -52,16 +52,25 @@ require ('../dbcon.php');
       }
 
       .overlay-code {
+        font-family: 'Anton';
         position: absolute;
         top: 67.5%;
         left: 83%;
         font-size: 12px;
         text-align: center;
       }
+      .overlay-circuit{
+        font-family: 'Arial';
+        position: absolute;
+        top: 88%;
+        left: 50%; 
+        transform: translateX(-50%); 
+        font-size: 10px;
+        text-transform: uppercase;
+        text-align: center;
 
-      body {
-        font-family: 'Anton';
       }
+
     </style>
   </head>
   <body>
@@ -69,54 +78,63 @@ require ('../dbcon.php');
     <?php 
     
       $getId = "SELECT 
-      tbl_yp.nickname, 
-      CONCAT(LEFT(tbl_circuit.Circuit, 1), '', tbl_delegate.delegate_id) AS code 
-    FROM 
+      REGEXP_REPLACE(tbl_yp.nickname, '[^0-9a-zA-Z]', '') AS cleaned_nickname,
+      CONCAT(LEFT(tbl_circuit.Circuit, 1), '', tbl_delegate.delegate_id) AS code, tbl_circuit.Circuit, tbl_circuit.colour
+  FROM 
       tbl_delegate 
       INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
       INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id 
-      INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id WHERE tbl_church.church_id = ( SELECT tbl_church.church_id FROM tbl_church WHERE tbl_church.Church = '$Church');";
+      INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id 
+  WHERE 
+      tbl_church.church_id = (SELECT tbl_church.church_id FROM tbl_church WHERE tbl_church.Church = '$Church');
+  ";
       $ID = $con -> query($getId);
     
          if($ID){
           foreach($ID as $row){
             ?>
       <div class='box'>
-      <div class="image-id"></div>
-        <div class="idINFO">
-          <div class="overlay-name"><?php echo $row['nickname'] ?></div>
-          <div class="overlay-code"><?php echo $row['code'];?></div> 
-        </div>
+        <div class="image-id"></div>
+          <div class="idINFO">
+            <div class="overlay-name"><?php echo $row['cleaned_nickname'] ?></div>
+            <div class="overlay-code"><?php echo $row['code'];?></div> 
+            <div class="overlay-circuit" style="color: <?php echo $row['colour']; ?>"><?php echo $row['Circuit'];?></div> 
+          </div>
       </div>
-      <?php }}else{
-        echo 'EMpty';
-      } ?>
-
       
+      
+      <?php }}?>
     </div>
   </body>
 </html>
 
 
 <script src="../plugins/jquery/jquery.min.js"></script>
-<script>    
-    $(window).on('load', function()  {
+<script>
+    $(window).on('load', function () {
 
         var imgElement = $('<img>', {
-            src: 'id.png',  // Replace with the actual path to your image
-            alt: 'Image Alt Text',          // Provide alternative text for accessibility
-            width: '100%',                    // Set the width of the image
-            height: '460px'                    // Set the height of the image
+            src: 'id.png',
+            alt: 'Image Alt Text',
+            width: '100%',
+            height: '460px'
         });
 
         // Append the image element to the image container
         $('.image-id').append(imgElement);
+       
 
-        imgElement.on('load', ()=> {
+        imgElement.on('load', () => {
             window.print();
         })
 
     })
-
-    
 </script>
+<style>
+  .bg-orange{
+    background-color: orange;
+  }
+  .bg-pink{
+    background-color: pink;
+  }
+</style>

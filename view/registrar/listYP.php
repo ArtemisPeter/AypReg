@@ -187,16 +187,16 @@
                 <table id="example1"class="table table-bordered table-striped table-hover">
                   <thead>
                     <tr>
-                      <th>Code</th>
                       <th>Name</th>
                       <th>NickName</th>
                       <th>Contact #</th>
                       <th>Age</th>
+                      <th class="d-none"></th>Bday</th>
                       <th>Del. Type</th>
                       <th>Church</th>
                       <th>Circuit</th>
-                      <th>Reg. Type</th>
-                      <th>Reg. Time</th>
+                      <th>Action</th>
+                      <th class="d-none">YP ID</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -205,13 +205,13 @@
                       CONCAT(tbl_yp.fname,' ',tbl_yp.lname) AS Name,
                       tbl_yp.nickname,
                       tbl_yp.contact_num,
-                      CONCAT(LEFT(tbl_circuit.Circuit, 1), '', tbl_delegate.delegate_id) AS code,
-                      TIMESTAMPDIFF(YEAR, tbl_yp.Bday, CURDATE()) AS Age,
+                  
+                      TIMESTAMPDIFF(YEAR, tbl_yp.Bday, CURDATE()) AS Age, tbl_yp.Bday,
                       tbl_delegatetype.delegate_type,
                       tbl_church.Church,
                       tbl_circuit.Circuit,
                       tbl_regtype.Registration_Type,
-                      tbl_delegate.RegTime
+                      tbl_delegate.RegTime, tbl_yp.yp_id
                   FROM
                       tbl_delegate
                   INNER JOIN
@@ -231,25 +231,71 @@
                         foreach($Info as $row){
                     ?>
                     <tr>
-                      <td><?php echo $row['code'] ?></td>
                       <td><?php echo $row['Name'] ?></td>
                       <td><?php echo $row['nickname'] ?></td>
                       <td><?php echo $row['contact_num'] ?></td>
                       <td><?php echo $row['Age'] ?></td>
+                      <td class="d-none"><?php echo $row['Bday'] ?></td>
                       <td><?php echo $row['delegate_type'] ?></td>
                       <td><?php echo $row['Church'] ?></td>
                       <td><span class="badge"><?php echo $row['Circuit'] ?></span></span></td>
-                      <td><?php echo $row['Registration_Type'] ?></td>
-                      <td><?php echo $row['RegTime']; }} ?></td>
+                      <td><EDIT type="button" class="btn btn-primary editBtn" >EDIT</button></td>
+                      <td class="d-none"><?php echo $row['yp_id'] ?></td>
                     </tr>
+                    <?php }} ?>
                   </tbody>
                 </table>
-                  
+              
               </div>
+            </div>
+            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModal" aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered"role="document">
+                    <input type = "hidden" name="update_id" id="update_id">
+                    <div class="modal-content" >
+                        <div class="modal-header d-flex justify-content-center"style="border-bottom: 1px solid green">
+                            <h4 id="namez"></h4>
+                        </div>
+                        <form id="updateInfo">
+                        <div class="modal-body">
+                          <div class="row">
+                              <div class="col-6">
+                                <label for="firstName">Name</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName">
+                              </div>
+                              <div class="col-6">
+                                <label for="surname" style="color: white">Name</label>
+                                <input type="text" class="form-control" id="surname" name= "surname">
+                              </div>
+                          </div>
+                          <label for="NiName">Edit NickName</label>
+                            <input type="text" class="form-control" id="NiName" name="NiName">
+                          <div class="row mt-2">
+                            <div class="col-12">
+                              <label for ="contactNum">Contact Number</label>
+                              <input type="number" id="contactNum" class="form-control" name="contactNum">
+                            </div>
+                          </div>
+                          <div class="row mt-2">
+                            <div class="col-12">
+                              <label for="Bday">Birthday</label>
+                              <input type="date" id="Bday" class="form-control" name="Bday">
+                            </div>
+                          </div>
+                          <input type="text" name="yp_id" id="yp_id" class="d-none"> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
       </div><!-- /.container-fluid -->
+
+      
     </section>
     <!-- /.content -->
   </div>
@@ -270,8 +316,17 @@
 </div>
 <!-- ./wrapper -->
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="../../plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- DataTables  & Plugins -->
@@ -348,6 +403,36 @@
   table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 });
 </script>
+<script>
+    $(document).ready(function() {
+        $('.editBtn').on('click', function() {
+            $('#updateModal').modal('show');
+            $tr = $(this).closest('tr');
+
+            var data = $tr.children("td").map(function() {
+                return $(this).text();
+            }).get();
+
+            var name = data[0];
+            
+            var nameArray = name.split(' ');
+            var firstName = nameArray.slice(0, -1).join(' ');
+            var surname = nameArray.slice(-1).join(' ');
+   
+            $('#NiName').val(data[1]);
+            $('#namez').text(data[0]);
+
+            $('#firstName').val(firstName);
+            $('#surname').val(surname);
+            $('#contactNum').val(data[2]);
+            $('#Bday').val(data[4]);
+            $('#yp_id').val(data[9]);
+
+            console.log(data[9]);
+        });
+    });
+</script>
+
 
 <style>
   .bg-orange{
@@ -357,5 +442,50 @@
     background-color: pink;
   }
 </style>
+<script>
+  $(()=>{
+
+    $('.select2').select2()
+
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+</script>
+<script>
+  let updateYPInfo = $('#updateInfo');
+
+  updateYPInfo.on('submit', (event)=>{
+    event.preventDefault();
+
+      $.ajax({
+      url: '../../controller/updateNickName.php',
+      method: 'POST',
+      data: updateYPInfo.serialize(),
+      success: (response) => {
+        console.log(response);
+        if(response === 'success'){
+          Swal.fire({
+            icon: 'success',
+            title: 'Updated!',
+            text: 'Yp Updated Successfully!'
+          }).then(() => {
+            location.reload();
+          })
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'ERROR!',
+            text: 'There is something went wrong. '
+          })
+        }
+     
+      }
+    })
+  })
+
+  
+
+</script>
 </body>
 </html>
