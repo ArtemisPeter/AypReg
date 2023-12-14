@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registered Delegates</title>
+  <link rel="icon" type="image/x-icon" href="../../dist/img/aypLogo.jpg">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -22,9 +23,6 @@
 <div class="wrapper">
 
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../../dist/img/aypLogo.jpg" alt="AdminLTELogo" height="400" width="400">
-  </div>
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -94,7 +92,15 @@
             <a href="churchProfile.php" class="nav-link active">
             <i class="nav-icon fas fa-users"></i>
               <p>
-                Church Profile
+                Registered Profile
+              </p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="listYP.php" class="nav-link">
+            <i class="nav-icon fas fa-list-ul"></i>
+              <p>
+                YP Profile
               </p>
             </a>
           </li>
@@ -102,26 +108,26 @@
             <a href="registrar_dashboard.php" class="nav-link">
             <i class="nav-icon fas fa-cash-register"></i>
               <p>
-                Register
+                Register On-site
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="fas fa-upload"></i>
+              <i class="nav-icon fas fa-upload"></i>
               <p>Import<i class="fas fa-angle-left right"></i></p></a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="registrar_import_prereg.php" class="nav-link">
-                    <i class="fas fa-registered"></i>
+                  <i class="nav-icon fas fa-globe-asia"></i>
                     <p>Pre-Reg</p>
                   </a>
                 </li>
                                     
                 <li class="nav-item">
                   <a href="registrart_import_YP.php" class="nav-link">
-                    <i class="far fa-registered"></i>
-                    <p>Young People</p>
+                  <i class="nav-icon fas fa-map-marker-alt"></i>
+                    <p>OnSite</p>
                   </a>
                 </li>
               </ul>
@@ -144,7 +150,7 @@
           </li>
           <li class="nav-item">
             <a href="../../index.php" class="nav-link">
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Log Out
               </p>
@@ -184,6 +190,32 @@
           <div class="col-12">
             <div class="card card-navy ">
               <div class="card-body">
+              <form method="POST" action="">
+                    <div class="row mb-2">
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="filterDropdown">Filter by:</label>
+                                </div>
+                                <select class="form-control select" id="filterDropdown">
+                                    <option value="0, 1, 2, 3, 9, 6, 7, 0, 4, 5, 8"> </option>
+                                    <option value="1">Name</option>
+                                    <option value="6">Church</option>
+                                    <option value="7">Circuit</option>
+                                    <option value="0">Code</option>
+                                    <option value="4">Age</option>
+                                    <option value="5">Del. Type</option>
+                                    <option value="8">Reg. Type</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-9 text-right">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <table id="example1"class="table table-bordered table-striped table-hover">
                   <thead>
                     <tr>
@@ -255,10 +287,10 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>PINILI 2023</strong>
+    TO GOD BE THE GLORY!
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>AYPRegV.</b> 0.0.1
     </div>
   </footer>
 
@@ -287,6 +319,11 @@
 <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
@@ -295,60 +332,88 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script>
-  $(document).ready(() => {
-  // Initialize DataTable
-  var table = $('#example1').DataTable({
-    "responsive": true,
-    "lengthChange": false,
-    "autoWidth": false,
-    "buttons": ["csv", "excel", "pdf", "print", "colvis"],
-    "drawCallback": function (settings) {
-      $('#example1 tbody tr').each(function () {
-        var badge = $(this).find('.badge');
-        var tdVal = $(this).find('td:eq(7)').text();
+ <script>
+      $(document).ready(() => {
+        // Initialize DataTable
+        var table = $('#example1').DataTable({
+          "searching": true,
+          "responsive": true,
+          "lengthChange": false,
+          "autoWidth": false,
+          "buttons": ["csv", "excel", "pdf", "print", "colvis"],
+          "drawCallback": function (settings) {
+            $('#example1 tbody tr').each(function () {
+              var badge = $(this).find('.badge');
+              var tdVal = $(this).find('td:eq(7)').text();
 
-        switch (tdVal) {
-          case 'Polomolok Circuit':
-            badge.addClass('bg-danger');
-            break;
+              switch (tdVal) {
+                case 'Polomolok Circuit':
+                  badge.addClass('bg-danger');
+                  break;
 
-          case 'TuTam Circuit':
-            badge.addClass('bg-success');
-            break;
+                case 'TuTam Circuit':
+                  badge.addClass('bg-success');
+                  break;
 
-          case 'Gensan Circuit':
-            badge.addClass('bg-warning')
-            break;
+                case 'Gensan-Coastal Circuit':
+                  badge.addClass('bg-warning');
+                  break;
 
-          case 'Malungon Circuit':
-            badge.addClass('bg-pink');
-            break;
+                case 'Malungon Circuit':
+                  badge.addClass('bg-pink');
+                  break;
 
-          case 'KorLuTan Circuit':
-            badge.addClass('bg-orange');
-            break;
+                case 'KorLuTan Circuit':
+                  badge.addClass('bg-orange');
+                  break;
 
-          case 'NorSan Circuit':
-            badge.addClass('bg-light');
-            break;
+                case 'NorSan Circuit':
+                  badge.addClass('bg-light');
+                  break;
 
-          case 'Banga Circuit':
-            badge.addClass('bg-dark');
-            break;
+                case 'Banga Circuit':
+                  badge.addClass('bg-dark');
+                  break;
 
-          case 'Surallah Circuit':
-            badge.addClass('bg-primary');
-            break;
-        }
+                case 'Surallah Circuit':
+                  badge.addClass('bg-primary');
+                  break;
+              }
+            });
+
+            
+          }
+        });
+// Handle filter dropdown change
+$('#filterDropdown').on('change', function() {
+              var filterValue = $(this).val();
+              var searchValue = $('#searchInput').val();
+              table.columns([0, 1, 2,3]).search(searchValue, false, false).draw(); // Search in columns 0, 1, and 2 together
+            });
+
+            // Handle search input change for individual column search
+            $('#searchInput').on('keyup', function() {
+              var filterValue = $('#filterDropdown').val();
+              var searchValue = $(this).val();
+              if (filterValue === "0,1,2,3") {
+                // If searching in all columns together
+                table.search(searchValue).draw();
+              } else {
+                // If searching in individual column
+                table.column(filterValue).search(searchValue).draw();
+              }
+            });
+        // Move buttons container
+        table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       });
-    }
-  });
-  // Move buttons container
-  table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-});
-</script>
-
+    </script>
+<style>
+                    /* Add this CSS to hide the default DataTables search input */
+                    div.dataTables_wrapper div.dataTables_filter {
+                        display: none;
+                    }
+                    
+                </style>
 <style>
   .bg-orange{
     background-color: orange;
@@ -357,5 +422,15 @@
     background-color: pink;
   }
 </style>
+<script>
+  $(()=>{
+
+    $('.select2').select2()
+
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+</script>
 </body>
 </html>

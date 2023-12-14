@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Registered Delegates</title>
-
+  <title>Pre Reg</title>
+  <link rel="icon" type="image/x-icon" href="../../dist/img/aypLogo.jpg">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -22,10 +22,6 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../../dist/img/aypLogo.jpg" alt="AdminLTELogo" height="400" width="400">
-  </div>
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -95,7 +91,15 @@
             <a href="churchProfile.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
               <p>
-                Church Profile
+                Registered Profile
+              </p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="listYP.php" class="nav-link">
+            <i class="nav-icon fas fa-list-ul"></i>
+              <p>
+                YP Profile
               </p>
             </a>
           </li>
@@ -103,26 +107,26 @@
             <a href="registrar_dashboard.php" class="nav-link">
             <i class="nav-icon fas fa-cash-register"></i>
               <p>
-                Register
+                Register On-site
               </p>
             </a>
           </li>
           <li class="nav-item menu-open">
             <a href="#" class="nav-link">
-              <i class="fas fa-upload"></i>
+              <i class="nav-icon fas fa-upload"></i>
               <p>Import<i class="fas fa-angle-left right"></i></p></a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="registrar_import_prereg.php" class="nav-link active">
-                    <i class="fas fa-registered"></i>
+                  <i class="nav-icon fas fa-globe-asia"></i>
                     <p>Pre-Reg</p>
                   </a>
                 </li>
                                     
                 <li class="nav-item">
                   <a href="registrart_import_YP.php" class="nav-link">
-                    <i class="far fa-registered"></i>
-                    <p>Young People</p>
+                  <i class="nav-icon fas fa-map-marker-alt"></i>
+                    <p>OnSite</p>
                   </a>
                 </li>
               </ul>
@@ -145,7 +149,7 @@
           </li>
           <li class="nav-item">
             <a href="../../index.php" class="nav-link">
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Log Out
               </p>
@@ -186,7 +190,8 @@
             <div class="card card-navy ">
               <div class="card-body">
                 <form id="importPreReg" enctype="multipart/form-data" method="post">
-                <a href="../../PreReg Template.csv" download>Click me to download the CSV file for importing Pre Reg</a>
+                <a href="https://drive.google.com/drive/folders/1OvNGMMpE28ZsAVR5tecX3GRwP-DzDLpe?usp=drive_link" class="d-flex justify-content-center" target="_blank">Click me to download the CSV file for importing Pre Reg</a>
+                <h3 class="d-flex justify-content-center"><b>NOTE: THIS IS UPDATED TO BATCH 2!</b></h3>
                     <div class="row d-flex justify-content-center mt-4 mb-4">
                         <div class="col-4">
                             <input type="file" class="form-control-file form-control-lg" name ="PreRegCSV" id ="PreRegCSV" required accept=".csv" >
@@ -210,10 +215,10 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>PINILI 2023</strong>
+    TO GOD BE THE GLORY!
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>AYPRegV.</b> 0.0.1
     </div>
   </footer>
 
@@ -365,7 +370,7 @@ require '../../dbcon.php';
     
                                         //register it!
                                         $register = "INSERT INTO tbl_delegate (tbl_delegate.yp_id, tbl_delegate.RegTime, tbl_delegate.RegType_id)
-                                        VALUES ((SELECT tbl_yp.yp_id FROM tbl_yp WHERE tbl_yp.fname = '$fname' AND tbl_yp.lname = '$lname'), NOW(), 1);";
+                                        VALUES ((SELECT tbl_yp.yp_id FROM tbl_yp WHERE tbl_yp.fname = '$fname' AND tbl_yp.lname = '$lname'), NOW(), 4);";
                                         $registered = $con -> query($register);
                                         
                                     }
@@ -382,9 +387,9 @@ require '../../dbcon.php';
 
                         if($error){
                             echo "<script>Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Other books are already in the system, other books will be saved!',
+                              icon: 'error',
+                              title: 'ON GOING BUG',
+                              text: 'Do not worry, the YP is registered as PreReg!, just double check the Registered Profile Module, if not contact the developer',
                             })</script>"; 
                         }else{
                             echo "<script>Swal.fire({

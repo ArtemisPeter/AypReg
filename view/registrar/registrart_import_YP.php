@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
-
+  <title>On Site</title>
+  <link rel="icon" type="image/x-icon" href="../../dist/img/aypLogo.jpg">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -86,23 +86,51 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a href="churchProfile.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
               <p>
-                Church Profile
+                Registered Profile
               </p>
             </a>
           </li>
           <li class="nav-item active">
+            <a href="listYP.php" class="nav-link">
+            <i class="nav-icon fas fa-list-ul"></i>
+              <p>
+                YP Profile
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
             <a href="registrar_dashboard.php" class="nav-link">
             <i class="nav-icon fas fa-cash-register"></i>
               <p>
-                Register
+                Register On-site
               </p>
             </a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-upload"></i>
+              <p>Import<i class="fas fa-angle-left right"></i></p></a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="registrar_import_prereg.php" class="nav-link">
+                  <i class="nav-icon fas fa-globe-asia"></i>
+                    <p>Pre-Reg</p>
+                  </a>
+                </li>
+                                    
+                <li class="nav-item">
+                  <a href="registrart_import_YP.php" class="nav-link active">
+                  <i class="nav-icon fas fa-map-marker-alt"></i>
+                    <p>OnSite</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          <li class="nav-item">
             <a href="reports.php" class="nav-link">
             <i class="nav-icon fas fa-chart-bar"></i>
               <p>
@@ -110,26 +138,6 @@
               </p>
             </a>
           </li>
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link">
-              <i class="fas fa-upload"></i>
-              <p>Import<i class="fas fa-angle-left right"></i></p></a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="registrar_import_prereg.php" class="nav-link ">
-                    <i class="fas fa-registered"></i>
-                    <p>Pre-Reg</p>
-                  </a>
-                </li>
-                                    
-                <li class="nav-item">
-                  <a href="registrart_import_YP.php" class="nav-link active">
-                    <i class="far fa-registered"></i>
-                    <p>Young People</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
           <li class="nav-item">
             <a href="about_us.php" class="nav-link">
             <i class="nav-icon fas fa-user-secret"></i>
@@ -140,7 +148,7 @@
           </li>
           <li class="nav-item">
             <a href="../../index.php" class="nav-link">
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Log Out
               </p>
@@ -159,12 +167,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Report</h1>
+            <h1 class="m-0">On Site</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Report</li>
+              <li class="breadcrumb-item active">OnSite</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -180,7 +188,7 @@
             <div class="card card-navy ">
               <div class="card-body">
               <form id="importPreReg" enctype="multipart/form-data" method="post">
-                <a href="https://drive.google.com/drive/folders/1OvNGMMpE28ZsAVR5tecX3GRwP-DzDLpe?usp=drive_link" target="_blank">Click me to download the CSV file for importing Young People</a>
+                <a href="https://drive.google.com/drive/folders/1OvNGMMpE28ZsAVR5tecX3GRwP-DzDLpe?usp=drive_link" class="d-flex justify-content-center" target="_blank">Click me to download the CSV file for importing OnSite</a>
                     <div class="row d-flex justify-content-center mt-4 mb-4">
                         <div class="col-4">
                             <input type="file" class="form-control-file form-control-lg" name ="PreRegCSV" id ="PreRegCSV" required accept=".csv" >
@@ -204,10 +212,10 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>PINILI 2023</strong>
+    TO GOD BE THE GLORY!
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>AYPRegV.</b> 0.0.1
     </div>
   </footer>
 
@@ -280,7 +288,6 @@ require '../../dbcon.php';
                             $Church = $row[4];
                             $deltype = 'Young People';
 
-
                             $YouthNames = explode(', ', $ImportName);
 
                             try{
@@ -350,8 +357,8 @@ require '../../dbcon.php';
     
                                         //register it!
                                         $register = "INSERT INTO tbl_delegate (tbl_delegate.yp_id, tbl_delegate.RegTime, tbl_delegate.RegType_id)
-                                        VALUES ((SELECT tbl_yp.yp_id FROM tbl_yp WHERE tbl_yp.fname = '$fname' AND tbl_yp.lname = '$lname'), NOW(), 1);";
-                                      //  $registered = $con -> query($register);
+                                        VALUES ((SELECT tbl_yp.yp_id FROM tbl_yp WHERE tbl_yp.fname = '$fname' AND tbl_yp.lname = '$lname'), NOW(), 2);";
+                                        $registered = $con -> query($register);
                                         
                                     }
                                 }
@@ -368,8 +375,8 @@ require '../../dbcon.php';
                         if($error){
                             echo "<script>Swal.fire({
                                 icon: 'error',
-                                title: 'Oops...',
-                                text: 'Other books are already in the system, other books will be saved!',
+                                title: 'A BUG',
+                                text: 'Do not worry, the YP is registered as onsite!',
                             })</script>"; 
                         }else{
                             echo "<script>Swal.fire({

@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="../../dist/img/aypLogo.jpg">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -105,46 +106,54 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           
-          <li class="nav-item">
-            <a href="" class="nav-link active">
+               <li class="nav-item">
+            <a href="dashboard.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a href="churchProfile.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
               <p>
-                Church Profile
+                Registered Profile
               </p>
             </a>
           </li>
           <li class="nav-item active">
+            <a href="listYP.php" class="nav-link">
+            <i class="nav-icon fas fa-list-ul"></i>
+              <p>
+                YP Profile
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
             <a href="registrar_dashboard.php" class="nav-link">
             <i class="nav-icon fas fa-cash-register"></i>
               <p>
-                Register
+                Register On-site
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="fas fa-upload"></i>
+              <i class="nav-icon fas fa-upload"></i>
               <p>Import<i class="fas fa-angle-left right"></i></p></a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="registrar_import_prereg.php" class="nav-link">
-                    <i class="fas fa-registered"></i>
+                  <i class="nav-icon fas fa-globe-asia"></i>
                     <p>Pre-Reg</p>
                   </a>
                 </li>
                                     
                 <li class="nav-item">
                   <a href="registrart_import_YP.php" class="nav-link">
-                    <i class="far fa-registered"></i>
-                    <p>Young People</p>
+                  <i class="nav-icon fas fa-map-marker-alt"></i>
+                    <p>OnSite</p>
                   </a>
                 </li>
               </ul>
@@ -167,7 +176,7 @@
           </li>
           <li class="nav-item">
             <a href="../../index.php" class="nav-link">
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Log Out
               </p>

@@ -3,6 +3,7 @@ require ('../dbcon.php');
     if(isset($_POST['Circuit']) && isset($_POST['Church'])){
         $Circuit = $_POST['Circuit'];
         $Church = $_POST['Church'];
+        $RegType = $_POST['Batch'];
     }
 ?>
 
@@ -86,7 +87,7 @@ require ('../dbcon.php');
       INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id 
       INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id 
   WHERE 
-      tbl_church.church_id = (SELECT tbl_church.church_id FROM tbl_church WHERE tbl_church.Church = '$Church');
+      tbl_church.church_id = (SELECT tbl_church.church_id FROM tbl_church WHERE tbl_church.Church = '$Church')  AND tbl_delegate.RegType_id = $RegType;
   ";
       $ID = $con -> query($getId);
     

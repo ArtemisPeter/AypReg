@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Reports</title>
+  <link rel="icon" type="image/x-icon" href="../../dist/img/aypLogo.jpg">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -94,50 +95,58 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a href="churchProfile.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
               <p>
-                Church Profile
+                Registered Profile
               </p>
             </a>
           </li>
           <li class="nav-item active">
+            <a href="listYP.php" class="nav-link">
+            <i class="nav-icon fas fa-list-ul"></i>
+              <p>
+                YP Profile
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
             <a href="registrar_dashboard.php" class="nav-link">
             <i class="nav-icon fas fa-cash-register"></i>
               <p>
-                Register
-              </p>
-            </a>
-          </li>
-          <li class="nav-item active">
-            <a href="reports.php" class="nav-link">
-            <i class="nav-icon fas fa-chart-bar"></i>
-              <p>
-                Reports
+                Register On-site
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="fas fa-upload"></i>
+              <i class="nav-icon fas fa-upload"></i>
               <p>Import<i class="fas fa-angle-left right"></i></p></a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="registrar_import_prereg.php" class="nav-link">
-                    <i class="fas fa-registered"></i>
+                  <i class="nav-icon fas fa-globe-asia"></i>
                     <p>Pre-Reg</p>
                   </a>
                 </li>
                                     
                 <li class="nav-item">
                   <a href="registrart_import_YP.php" class="nav-link">
-                    <i class="far fa-registered"></i>
-                    <p>Young People</p>
+                  <i class="nav-icon fas fa-map-marker-alt"></i>
+                    <p>OnSite</p>
                   </a>
                 </li>
               </ul>
             </li>
+          <li class="nav-item">
+            <a href="reports.php" class="nav-link active">
+            <i class="nav-icon fas fa-chart-bar"></i>
+              <p>
+                Reports
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="about_us.php" class="nav-link">
             <i class="nav-icon fas fa-user-secret"></i>
@@ -148,7 +157,7 @@
           </li>
           <li class="nav-item">
             <a href="../../index.php" class="nav-link">
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Log Out
               </p>
@@ -189,7 +198,7 @@
               <div class="card-body">
                 <form action="../../controller/GenerateID.php" method="POST" target="_blank">
                 <div class="row">
-                  <div class="col-4">
+                  <div class="col-3">
                   <select class="select2bs4 form-control" name="Circuit" id="Circuit" required>
                                           <option disabled selected>Select Circuit</option>
                                             <?php 
@@ -202,12 +211,20 @@
                                             <option><?php echo $row['Circuit']; }}?></option>
                                         </select>
                   </div>
-                  <div class="col-4">
+                  <div class="col-3">
                   <select class="select2bs4 form-control" id="Church" name="Church" required>
                                             <option disabled selected>Select Church</option>
                                           </select>
                   </div>
-                  <div class="col-4">
+                  <div class="col-3">
+                    <select class="select2bs4 form-control" id="Batch" name="Batch"required>
+                      <option disabled selected>Select Batch</option>
+                      <option value="1">Batch 1</option>
+                      <option value="4">Batch 2</option>
+                      <option value="2">On-Site</option>
+                    </select>
+                  </div>
+                  <div class="col-3">
                     <button type="submit" class="btn btn-danger" id ="generateButton" >Generate ID</button>
                   </div>
                 </div>
@@ -316,10 +333,10 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>PINILI 2023</strong>
+    TO GOD BE THE GLORY!
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>AYPRegV.</b> 0.0.1
     </div>
   </footer>
 
@@ -635,15 +652,16 @@ $(()=> {
     function checkSelection(){
       var circuitSelected = $('#Circuit').val();
       var churchSelected = $('#Church').val();
+      var Batch = $('#Batch').val();
 
-      if(circuitSelected && churchSelected) {
+      if(circuitSelected && churchSelected && Batch) {
         $('#generateButton').prop('disabled', false);
       }else{
         $('#generateButton').prop('disabled', true);
       }
     }
 
-    $('#Circuit, #Church').change(()=> {
+    $('#Circuit, #Church, #Batch').change(()=> {
       checkSelection();
     })
 
