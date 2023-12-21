@@ -284,7 +284,7 @@
       </div><!-- /.container-fluid -->
       <div class="row">
       <div class="col-md-6">
-          <div class="card card-success">
+          <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Total Ages</h3>
 
@@ -299,14 +299,14 @@
               </div>
               <div class="card-body">
                 <div class="chart">
-                  <canvas id="TotalAgesPie" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  <canvas id="TotalAgesBar" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
               <!-- /.card-body -->
             </div>
       </div>
       <div class="col-md-6">
-      <div class="card card-success">
+      <div class="card card-danger">
               <div class="card-header">
                 <h3 class="card-title">Registration Per Day</h3>
 
@@ -327,6 +327,31 @@
               <!-- /.card-body -->
             </div>
       </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+        <div class="card card-danger">
+              <div class="card-header">
+                <h3 class="card-title">Number of Churches</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="BarChurches" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+      </div>
+        </div>
       </div>
     </section>
     <!-- /.content -->
@@ -382,7 +407,7 @@
                   
                   $GetGensan = "SELECT COUNT(*) AS MCircuit FROM tbl_delegate INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
                   INNER JOIN tbl_church ON tbl_yp.church_id = tbl_church.church_id INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = 
-                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'Gensan Circuit';";
+                  tbl_church.circuit_id WHERE tbl_circuit.Circuit = 'Gensan-Coastal Circuit';";
                   $TotalGC = $con->query($GetGensan);
 
                   if($TotalGC -> num_rows > 0){
@@ -465,24 +490,32 @@
                     $ORG = $OnReg -> fetch_assoc();
                     $TotalOnReg = $ORG['OnReg'];
                   }
+
+                  $GetTotalPreReg2 = "SELECT COUNT(*) AS PreReg2 FROM tbl_delegate WHERE tbl_delegate.RegType_id = 4;";
+                  $PreReg2 = $con ->  query($GetTotalPreReg2);
+
+                  if($PreReg2 -> num_rows > 0){
+                    $PRG2 = $PreReg2 -> fetch_assoc();
+                    $TotalPreg2 = $PRG2['PreReg2'];
+                  }
   
   ?>
 $(()=> {
   var Circuit = {
     labels: [
       'Malungon Circuit',
-      'Gensan Circuit',
+      'Gensan-Coastal Circuit',
       'Polomolok Circuit',
       'TuTam Circuit',
       'KorLuTan Circuit',
       'Banga Circuit',
       'Surallah Circuit',
-      'NorSam Circuit'
+      'NorSan Circuit'
     ],
     datasets: [
       {
         data: [<?php echo $OverMC ?>,<?php echo $OverGC ?>,<?php echo $OverPC ?>,<?php echo $OverTC ?>,<?php echo $OverKC ?>,<?php echo $OverBC ?>,<?php echo $OverSC ?>,<?php echo $OverNC ?>],
-        backgroundColor: ['#F8C8DC', '#fdfd96','#FF6961', '#77DD77', '#FF5733', '#1D1C1A', '#AEC6CF', '#EDE9E8']
+        backgroundColor: ['#e83e8c', '#ffc107','#dc3545', '#28a745', '#fd7e14', '#343a40', '#007bff', '#f4f6f9']
       }
     ]
   }
@@ -500,15 +533,18 @@ $(()=> {
     options :pieOptions
   });
 
+  //Registration
+
   var Registration_Type = {
     labels: [
-      'Pre-Reg',
+      'Pre-Reg Batch 1',
+      'Pre-Reg Batch 2',
       'On-Site',
     ],
     datasets: [
       {
-        data: [<?php echo $TotalPreReg ?>, <?php echo $TotalOnReg ?>],
-        backgroundColor: ['#FF6961','#AEC6CF', ]
+        data: [<?php echo $TotalPreReg ?>, <?php echo $TotalPreg2 ?> ,<?php echo $TotalOnReg ?>],
+        backgroundColor: ['#dc3545','#ffc107','#0d6efd' ]
       }
     ]
   }
@@ -525,118 +561,317 @@ $(()=> {
     data: pieData,
     options :pieOptions
   });
+
+//Ages
+
+<?php
+
+  $Get13And16 = "SELECT COUNT(*) AS OverThirSix
+  FROM tbl_delegate 
+  INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+  WHERE TIMESTAMPDIFF(YEAR, tbl_yp.Bday, CURDATE()) <= 16;";
+  $ThirteenSixteen = $con -> query($Get13And16);
+
+  if($ThirteenSixteen -> num_rows > 0){
+      $ThirSix = $ThirteenSixteen -> fetch_assoc();
+      $OverAllThirSix = $ThirSix['OverThirSix'];
+  }
+
+  $Get17And19 = "SELECT COUNT(*) AS OverSevNine
+  FROM tbl_delegate 
+  INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+  WHERE TIMESTAMPDIFF(YEAR, tbl_yp.Bday, CURDATE()) >= 17 AND TIMESTAMPDIFF(YEAR, tbl_yp.Bday, CURDATE()) <= 19;";
+  $SeventeenNineteen = $con -> query($Get17And19);
+
+  if($SeventeenNineteen -> num_rows > 0){
+      $SevNine = $SeventeenNineteen -> fetch_assoc();
+      $OverAllSevNine = $SevNine['OverSevNine'];
+  }
+
+
+  $Get20Up = "SELECT COUNT(*) AS OverTwentyUp
+  FROM tbl_delegate 
+  INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
+  WHERE TIMESTAMPDIFF(YEAR, tbl_yp.Bday, CURDATE()) >= 20;";
+  $TwentyUp = $con -> query($Get20Up);
+
+  if($TwentyUp -> num_rows > 0){
+      $TwUp = $TwentyUp -> fetch_assoc();
+      $OverAllTwUp = $TwUp['OverTwentyUp'];
+  }
+
+?>
+
+var Ages_Bracket = {
+    labels: [
+      '13-16',
+      '17-19',
+      '20 - above',
+    ],
+    datasets: [
+      {
+        data: [<?php echo $OverAllThirSix ?>, <?php echo $OverAllSevNine ?> ,<?php echo $OverAllTwUp ?>],
+        backgroundColor: ['#dc3545','#ffc107','#0d6efd' ]
+      }
+    ]
+  }
+
+  var AgesReg = $('#TotalAgesBar').get(0).getContext('2d')
+  var pieData = Ages_Bracket;
+  var pieOptions = {
+    maintanAspectRatio :false,
+    responsive : true,
+  }
+
+  new Chart(AgesReg, {
+    type: 'pie',
+    data: pieData,
+    options :pieOptions
+  });
 });
 
+//Reg Per Day
 
-</script>
+<?php
+  $GetDay1 = "SELECT COUNT(*) AS D1
+  FROM tbl_delegate 
+  WHERE DATE(tbl_delegate.RegTime) = '2023-26-12';
+  ";
+  $Day1 = $con -> query($GetDay1);
 
-<script>
-  function generateID() {
+  if($Day1 -> num_rows > 0){
+    $D1 = $Day1-> fetch_assoc();
+    $OverD1 = $D1['D1'];
+  }
+
+  $GetDay2 = "SELECT COUNT(*) AS D2
+  FROM tbl_delegate 
+  WHERE DATE(tbl_delegate.RegTime) = '2023-27-12';
+  ";
+  $Day2 = $con -> query($GetDay2);
+
+  if($Day2 -> num_rows > 0){
+    $D2 = $Day2-> fetch_assoc();
+    $OverD2 = $D2['D2'];
+  }
+
+  $GetDay3 = "SELECT COUNT(*) AS D3
+  FROM tbl_delegate 
+  WHERE DATE(tbl_delegate.RegTime) = '2023-28-12';
+  ";
+  $Day3 = $con -> query($GetDay3);
+
+  if($Day3-> num_rows > 0){
+    $D3 = $Day3-> fetch_assoc();
+    $OverD3 = $D3['D3'];
+  }
+
+  $GetDay4 = "SELECT COUNT(*) AS D4
+  FROM tbl_delegate 
+  WHERE DATE(tbl_delegate.RegTime) = '2023-29-12';
+  ";
+  $Day4 = $con -> query($GetDay4);
+
+  if($Day4 -> num_rows > 0){
+    $D4 = $Day4-> fetch_assoc();
+    $OverD4 = $D4['D4'];
+  }
+
+?>
+var areaChartData = {
+      labels  : ['Dec. 26', 'Dec. 27', 'Dec. 28', 'Dec. 29'],
+      datasets: [
+        {
+          label               : 'Number of Delegates',
+          backgroundColor     : '#007bff',
+          borderColor         : '#007bff',
+          pointRadius          : false,
+          pointColor          : '#28a745',
+          pointStrokeColor    : '#28a745',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [<?php echo $OverD1 ?>, <?php echo $OverD2 ?>, <?php echo $OverD3 ?>, <?php echo $OverD4 ?>]
+        },
+       
+      ]
+    }
+
+var barChartCanvas = $('#RegPerDayBar').get(0).getContext('2d')
+    var barChartData = $.extend(true, {}, areaChartData)
+    var temp0 = areaChartData.datasets[0]
+   
+  
+    barChartData.datasets[0] = temp0
+
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+
+    new Chart(barChartCanvas, {
+      type: 'line',
+      data: barChartData,
+      options: barChartOptions
+    })
+
+    //Churches
+
+    <?php 
     
-    var printWindow = window.open('about:blank', 'Print', 'left=0, top=0, width=800, height=500, toolbar=0, scrollbars=0, status=0');
+        $GetChurchMalungon = "SELECT  COUNT(DISTINCT tbl_church.church) AS Malungon
+        FROM tbl_delegate
+        INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+        INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id -- Corrected join condition
+        INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+        WHERE tbl_circuit.circuit_id = 5;"; 
+        $ChurchMalungon = $con-> query($GetChurchMalungon);
 
-    <?php
-      $getId = "SELECT 
-      tbl_yp.nickname, 
-      CONCAT(LEFT(tbl_circuit.Circuit, 1), '', tbl_delegate.delegate_id) AS code 
-    FROM 
-      tbl_delegate 
-      INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id 
-      INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id 
-      INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id;";
-      $ID = $con -> query($getId);
+        if($ChurchMalungon -> num_rows > 0){
+          $CMC = $ChurchMalungon -> fetch_assoc();
+          $OverChurchMC = $CMC['Malungon'];
+        }
+
+        $GetChurchGensan = "SELECT  COUNT(DISTINCT tbl_church.church) AS Gensan
+        FROM tbl_delegate
+        INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+        INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id -- Corrected join condition
+        INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+        WHERE tbl_circuit.circuit_id = 2;"; 
+        $ChurchGensan = $con-> query($GetChurchGensan);
+
+        if($ChurchGensan -> num_rows > 0){
+          $CGC = $ChurchGensan -> fetch_assoc();
+          $OverChurchGC = $CGC['Gensan'];
+        }
+
+        $GetChurchPolomolok = "SELECT  COUNT(DISTINCT tbl_church.church) AS Polomolok
+        FROM tbl_delegate
+        INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+        INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id -- Corrected join condition
+        INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+        WHERE tbl_circuit.circuit_id = 1;"; 
+        $ChurchPolomolok = $con-> query($GetChurchPolomolok);
+
+        if($ChurchPolomolok -> num_rows > 0){
+          $CPC = $ChurchPolomolok -> fetch_assoc();
+          $OverChurchPC = $CPC['Polomolok'];
+        }
+
+        $GetChurchTuTam = "SELECT  COUNT(DISTINCT tbl_church.church) AS TuTam
+        FROM tbl_delegate
+        INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+        INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id -- Corrected join condition
+        INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+        WHERE tbl_circuit.circuit_id = 6;"; 
+        $ChurchTuTam = $con-> query($GetChurchTuTam);
+
+        if($ChurchTuTam -> num_rows > 0){
+          $CTC = $ChurchTuTam -> fetch_assoc();
+          $OverChurchTC = $CTC['TuTam'];
+        }
+
+        $GetChurchKorLuTan = "SELECT  COUNT(DISTINCT tbl_church.church) AS KorLuTan
+        FROM tbl_delegate
+        INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+        INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id -- Corrected join condition
+        INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+        WHERE tbl_circuit.circuit_id = 4;"; 
+        $ChurchKorLuTan = $con-> query($GetChurchKorLuTan);
+
+        if($ChurchKorLuTan -> num_rows > 0){
+          $CKC = $ChurchKorLuTan -> fetch_assoc();
+          $OverChurchKC = $CKC['KorLuTan'];
+        }
+
+        $GetChurchBanga = "SELECT  COUNT(DISTINCT tbl_church.church) AS Banga
+        FROM tbl_delegate
+        INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+        INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id -- Corrected join condition
+        INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+        WHERE tbl_circuit.circuit_id = 8;"; 
+        $ChurchBanga = $con-> query($GetChurchBanga);
+
+        if($ChurchBanga -> num_rows > 0){
+          $CBC = $ChurchBanga -> fetch_assoc();
+          $OverChurchBC = $CBC['Banga'];
+        }
+
+        $GetChurchSurallah = "SELECT  COUNT(DISTINCT tbl_church.church) AS Surallah
+        FROM tbl_delegate
+        INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+        INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id -- Corrected join condition
+        INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+        WHERE tbl_circuit.circuit_id = 7;"; 
+        $ChurchSurallah = $con-> query($GetChurchSurallah);
+
+        if($ChurchSurallah -> num_rows > 0){
+          $CSC = $ChurchSurallah -> fetch_assoc();
+          $OverChurchSC = $CSC['Surallah'];
+        }
+
+        $GetChurchNorSan = "SELECT  COUNT(DISTINCT tbl_church.church) AS NorSan
+        FROM tbl_delegate
+        INNER JOIN tbl_yp ON tbl_yp.yp_id = tbl_delegate.yp_id
+        INNER JOIN tbl_church ON tbl_church.church_id = tbl_yp.church_id -- Corrected join condition
+        INNER JOIN tbl_circuit ON tbl_circuit.circuit_id = tbl_church.circuit_id
+        WHERE tbl_circuit.circuit_id = 3;"; 
+        $ChurchNorSan = $con-> query($GetChurchNorSan);
+
+        if($ChurchNorSan -> num_rows > 0){
+          $CNC = $ChurchNorSan -> fetch_assoc();
+          $OverChurchNC = $CNC['NorSan'];
+        }
+    
     ?>
 
-    printWindow.document.write(`
-    <html>
-  <head>
-    <title>ID</title>
-    <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet'>
-    <style>
-      .img-container {
-        display: flex;
-        flex-wrap: wrap;
+    var Churches = {
+      labels  : [ 'Malungon Circuit',
+      'Gensan-Coastal Circuit',
+      'Polomolok Circuit',
+      'TuTam Circuit',
+      'KorLuTan Circuit',
+      'Banga Circuit',
+      'Surallah Circuit',
+      'NorSan Circuit'],
+      datasets: [
+        {
+          label               : 'Number of Churches ',
+          backgroundColor     : '#007bff',
+          borderColor         : '#007bff',
+          pointRadius          : false,
+          pointColor          : '#28a745',
+          pointStrokeColor    : '#28a745',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [<?php echo $OverChurchMC ?>, <?php echo $OverChurchGC ?>, <?php echo $OverChurchPC ?>, 
+          <?php echo $OverChurchTC ?>, <?php echo $OverChurchKC ?>, <?php echo $OverChurchBC ?>, <?php echo $OverChurchSC ?>, <?php echo $OverChurchNC ?>]
+        },
        
-      }
+      ]
+    }
 
-      .box{ 
-        background-size: cover; /* Adjust as needed */
-        border: 1px solid black;
-        width: 45%;
-        height: 460px;
-        margin: 10px 10px;
-        position: relative;
-      }
+var barChartCanvas = $('#BarChurches').get(0).getContext('2d')
+    var barChartData = $.extend(true, {}, Churches)
+    var temp0 = Churches.datasets[0]
+   
+  
+    barChartData.datasets[0] = temp0
 
-      img{
-        width: 100%;
-        height: 460px;
-      }
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
 
-      .idINFO {
-        position: absolute;
-        font-weight: bold;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-      }
+    new Chart(barChartCanvas, {
+      type: 'bar',
+      data: barChartData,
+      options: barChartOptions
+    })
 
-      .overlay-name {
-        position: absolute;
-        top: 71%;
-        left: 50%; 
-        transform: translateX(-50%); 
-        font-size: 60px;
-        text-transform: uppercase;
-        text-align: center;
-      }
-
-      .overlay-code {
-        position: absolute;
-        top: 67.5%;
-        left: 83%;
-        font-size: 12px;
-        text-align: center;
-      }
-
-      body {
-        font-family: 'Anton';
-      }
-    </style>
-  </head>
-  <body>
-    <div class="img-container">
-    <?php 
-         if($ID){
-          foreach($ID as $row){
-            ?>
-      <div class='box'>
-      <img src="../../dist/img/id.png">
-        <div class="idINFO">
-          <div class="overlay-name"><?php echo $row['nickname'] ?></div>
-          <div class="overlay-code"><?php echo $row['code'];?></div> 
-        </div>
-      </div>
-      <?php }} ?>
-
-      
-    </div>
-  </body>
-</html>
-
-
-    `);
-
-    printWindow.document.close();
-
-    printWindow.addEventListener('afterprint', function () {
-      printWindow.close();
-    });
-
-    printWindow.print();
-  }
 </script>
+
 <script>
   $(()=>{
 

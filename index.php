@@ -153,7 +153,7 @@
                         success: (response) => {
                             console.log(response);
                            if(response === 'Admin'){
-                            window.location = 'view/admin/admin_dashboard.php';
+                            window.location = 'view/admin/admin_dashboard.php'
                            }else if(response === 'Registrar'){
                             window.location = 'view/registrar/dashboard.php'
                            }

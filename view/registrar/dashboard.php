@@ -88,7 +88,7 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php
+        <a href="#" class="d-block"><?php
             if (!isset($_SESSION['UserName'])) {
                 session_destroy(); // Destroy the session
                 header('Location: ../../index.php'); // Redirect to index.php

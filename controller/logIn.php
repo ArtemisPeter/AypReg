@@ -13,8 +13,6 @@
         if($ID -> num_rows == 1){
             foreach($ID as $row){
                 $userId = $row['user_id'];
-                
-              
 
                 $getUserType = "SELECT tbl_usertype.userType FROM tbl_users INNER JOIN tbl_usertype ON tbl_usertype.userType_id = tbl_users.usertype_id WHERE tbl_users.user_id = $userId";
                 $UserType = $con -> query($getUserType);

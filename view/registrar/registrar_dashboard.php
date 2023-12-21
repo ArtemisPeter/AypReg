@@ -187,11 +187,11 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+ 
         <div class="row">
           <div class="col-12">
             <div class="card card-navy ">
               <div class="card-body">
-    
                     <div class="row">
                       <div class="col-12">
                         <div class="card card-primary card-outline card-outline-tabs">
